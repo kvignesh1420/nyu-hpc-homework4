@@ -35,14 +35,14 @@ double single_int_ring(MPI_Comm comm, int rank, int comm_size, int N){
     // do not count the print op in mpi timings
     if (rank == 0){
         int desired_output = N*((comm_size-1)*(comm_size))/2;
-        printf("comm_size=%d, N=%d, desired_output=%d, final_message=%d\n",
+        printf("\ncomm_size=%d, N=%d, desired_output=%d, final_message=%d\n",
                 comm_size, N, desired_output, message);
     }
 
     return tt;
 }
 
-double array_int_ring(MPI_Comm comm, int rank, int comm_size, int N, int array_size){
+double array_int_ring(MPI_Comm comm, int rank, int comm_size, int N, long array_size){
 
     MPI_Barrier(comm);
     int* message = (int*) malloc(sizeof(int)*array_size);
@@ -78,13 +78,13 @@ double array_int_ring(MPI_Comm comm, int rank, int comm_size, int N, int array_s
     if(rank == 0){
         for (int i = 0; i < array_size-1; i++){
             if(message[i] != message[i+1]){
-                printf("The final message is incorrect\n");
+                printf("\nThe final message is incorrect\n");
                 printf("message[%d] = %d\n", i, message[i]);
                 printf("message[%d] = %d\n", i+1, message[i+1]);
                 return tt;
             }
         }
-        printf("The final message is same across all entries\n");
+        printf("\nThe final message is same across all entries\n");
         int desired_output = N*((comm_size-1)*(comm_size))/2;
         printf("comm_size=%d, N=%d, desired_output=%d, message[0]=%d\n",
                 comm_size, N, desired_output, message[0]);
@@ -119,15 +119,20 @@ int main(int argc, char** argv) {
   if(rank==0) printf("Number of repeats: %d\n", N);
   double tt;
   tt = single_int_ring(comm, rank, comm_size, N);
-  if(rank==0) printf("single_int ring latency: %e ms\n", tt/N * 1000);
+  if(rank==0) {
+    // printf("Time: %f\n", tt);
+    printf("single_int per-communication latency: %f ms\n", double(tt/N/comm_size) * 1000);
+  }
 
   MPI_Barrier(comm);
   // 500,000 integer array is approximately 2MB
-  int array_size = 500000;
+  long array_size = 500000;
+  tt = 0;
   tt = array_int_ring(comm, rank, comm_size, N, array_size);
   if(rank==0) {
-    printf("array_int ring latency: %e ms\n", tt/N * 1000);
-    printf("array_int ring bandwidth: %e GB/s\n", (array_size*N)/tt/1e9);
+    // printf("Time: %f\n", tt);
+    printf("array_int per-communication latency: %f ms\n", double(tt/N/comm_size) * 1000);
+    printf("array_int per-communication bandwidth: %f GB/s\n", (array_size*double(comm_size*N))/tt/1e9);
   }
 
   MPI_Finalize();

@@ -3,6 +3,13 @@
 ### Setup
 Greene Supercomputing cluster
 
+```bash
+[vk2115@log-3 homework4]$ module list
+
+Currently Loaded Modules:
+  1) gcc/10.2.0   2) openmpi/gcc/4.0.5
+```
+
 ### Question 1: Greene network test
 
 I modified the pingpong example from class to print the nodes on which each MPI process is running.
@@ -37,59 +44,126 @@ Submit the job using:
 $ [vk2115@log-3 homework4]$ sbatch int_ring_job.sbatch
 ```
 
-Output with added spaces and comment for readability:
+Output:
 
-RUN 1:
+RUN 1: `size=10, N=1000`
 
 ```bash
-Rank 0/10 running on cs324.hpc.nyu.edu.
-Rank 1/10 running on cs325.hpc.nyu.edu.
-Rank 6/10 running on cs330.hpc.nyu.edu.
-Rank 7/10 running on cs331.hpc.nyu.edu.
-Rank 4/10 running on cs328.hpc.nyu.edu.
-Rank 2/10 running on cs326.hpc.nyu.edu.
-Rank 3/10 running on cs327.hpc.nyu.edu.
-Rank 9/10 running on cs333.hpc.nyu.edu.
-Rank 5/10 running on cs329.hpc.nyu.edu.
-Rank 8/10 running on cs332.hpc.nyu.edu.
+Rank 0/10 running on cs044.hpc.nyu.edu.
+Rank 3/10 running on cs349.hpc.nyu.edu.
+Rank 1/10 running on cs206.hpc.nyu.edu.
+Rank 2/10 running on cs348.hpc.nyu.edu.
+Rank 4/10 running on cs382.hpc.nyu.edu.
+Rank 9/10 running on cs490.hpc.nyu.edu.
+Rank 5/10 running on cs383.hpc.nyu.edu.
+Rank 7/10 running on cs392.hpc.nyu.edu.
+Rank 6/10 running on cs391.hpc.nyu.edu.
+Rank 8/10 running on cs489.hpc.nyu.edu.
 Number of repeats: 1000
 
-# single int
 comm_size=10, N=1000, desired_output=45000, final_message=45000
-single_int ring latency: 1.126263e-02 ms
+Time: 0.013418
+single_int per-communication latency: 0.001342 ms
 
-# array of int
 The final message is same across all entries
 comm_size=10, N=1000, desired_output=45000, message[0]=45000
-array_int ring latency: 2.502156e+00 ms
-array_int ring bandwidth: 1.998276e-01 GB/s
+Time: 2.613323
+array_int per-communication latency: 0.261332 ms
+array_int per-communication bandwidth: 1.913273 GB/s
 ```
 
-RUN 2:
+RUN 2: `size=10, N=10000`
 
 ```bash
-Rank 0/10 running on cs324.hpc.nyu.edu.
-Rank 7/10 running on cs331.hpc.nyu.edu.
-Rank 9/10 running on cs333.hpc.nyu.edu.
-Rank 5/10 running on cs329.hpc.nyu.edu.
-Rank 8/10 running on cs332.hpc.nyu.edu.
-Rank 4/10 running on cs328.hpc.nyu.edu.
-Rank 3/10 running on cs327.hpc.nyu.edu.
-Rank 2/10 running on cs326.hpc.nyu.edu.
-Rank 1/10 running on cs325.hpc.nyu.edu.
-Rank 6/10 running on cs330.hpc.nyu.edu.
+Rank 0/10 running on ga018.hpc.nyu.edu.
+Rank 9/10 running on ga027.hpc.nyu.edu.
+Rank 6/10 running on ga024.hpc.nyu.edu.
+Rank 5/10 running on ga023.hpc.nyu.edu.
+Rank 2/10 running on ga020.hpc.nyu.edu.
+Rank 8/10 running on ga026.hpc.nyu.edu.
+Rank 7/10 running on ga025.hpc.nyu.edu.
+Rank 1/10 running on ga019.hpc.nyu.edu.
+Rank 4/10 running on ga022.hpc.nyu.edu.
+Rank 3/10 running on ga021.hpc.nyu.edu.
 Number of repeats: 10000
 
-# single int
 comm_size=10, N=10000, desired_output=450000, final_message=450000
-single_int ring latency: 1.177762e-02 ms
+single_int per-communication latency: 0.001488 ms
 
-# array of int
 The final message is same across all entries
 comm_size=10, N=10000, desired_output=450000, message[0]=450000
-array_int ring latency: 2.501200e+00 ms
-array_int ring bandwidth: 2.818778e-02 GB/s
+array_int per-communication latency: 0.226879 ms
+array_int per-communication bandwidth: 2.203823 GB/s
 ```
+
+RUN 3: `size=20, N=10000`
+
+```bash
+Rank 0/20 running on cs003.hpc.nyu.edu.
+Rank 16/20 running on cs392.hpc.nyu.edu.
+Rank 12/20 running on cs349.hpc.nyu.edu.
+Rank 7/20 running on cs206.hpc.nyu.edu.
+Rank 17/20 running on cs489.hpc.nyu.edu.
+Rank 19/20 running on cs495.hpc.nyu.edu.
+Rank 10/20 running on cs240.hpc.nyu.edu.
+Rank 18/20 running on cs490.hpc.nyu.edu.
+Rank 13/20 running on cs382.hpc.nyu.edu.
+Rank 1/20 running on cs004.hpc.nyu.edu.
+Rank 6/20 running on cs147.hpc.nyu.edu.
+Rank 11/20 running on cs348.hpc.nyu.edu.
+Rank 4/20 running on cs100.hpc.nyu.edu.
+Rank 2/20 running on cs044.hpc.nyu.edu.
+Rank 15/20 running on cs391.hpc.nyu.edu.
+Rank 14/20 running on cs383.hpc.nyu.edu.
+Rank 3/20 running on cs099.hpc.nyu.edu.
+Rank 5/20 running on cs146.hpc.nyu.edu.
+Rank 9/20 running on cs239.hpc.nyu.edu.
+Rank 8/20 running on cs238.hpc.nyu.edu.
+Number of repeats: 10000
+
+comm_size=20, N=10000, desired_output=1900000, final_message=1900000
+single_int per-communication latency: 0.001403 ms
+
+The final message is same across all entries
+comm_size=20, N=10000, desired_output=1900000, message[0]=1900000
+array_int per-communication latency: 0.270768 ms
+array_int per-communication bandwidth: 1.846597 GB/s
+```
+
+RUN 4: `size=20, N=100000`
+
+```bash
+Rank 0/20 running on cs003.hpc.nyu.edu.
+Rank 16/20 running on cs392.hpc.nyu.edu.
+Rank 17/20 running on cs489.hpc.nyu.edu.
+Rank 6/20 running on cs206.hpc.nyu.edu.
+Rank 1/20 running on cs004.hpc.nyu.edu.
+Rank 19/20 running on cs495.hpc.nyu.edu.
+Rank 11/20 running on cs348.hpc.nyu.edu.
+Rank 12/20 running on cs349.hpc.nyu.edu.
+Rank 13/20 running on cs382.hpc.nyu.edu.
+Rank 18/20 running on cs490.hpc.nyu.edu.
+Rank 8/20 running on cs238.hpc.nyu.edu.
+Rank 4/20 running on cs146.hpc.nyu.edu.
+Rank 5/20 running on cs147.hpc.nyu.edu.
+Rank 7/20 running on cs207.hpc.nyu.edu.
+Rank 3/20 running on cs100.hpc.nyu.edu.
+Rank 14/20 running on cs383.hpc.nyu.edu.
+Rank 2/20 running on cs099.hpc.nyu.edu.
+Rank 10/20 running on cs240.hpc.nyu.edu.
+Rank 15/20 running on cs391.hpc.nyu.edu.
+Rank 9/20 running on cs239.hpc.nyu.edu.
+Number of repeats: 100000
+
+comm_size=20, N=100000, desired_output=19000000, final_message=19000000
+single_int per-communication latency: 0.001322 ms
+
+The final message is same across all entries
+comm_size=20, N=100000, desired_output=19000000, message[0]=19000000
+array_int per-communication latency: 0.265607 ms
+array_int per-communication bandwidth: 1.882477 GB/s
+```
+
 
 ### Question 3: MPI version of Scan
 
@@ -100,7 +174,7 @@ Submit the job using:
 $ [vk2115@log-3 homework4]$  sbatch mpi_scan_job.sbatch
 ```
 
-RUN 1
+RUN 1: `world_size=10, array_size=100000`
 
 ```bash
 Rank 9/10 running on cs489.hpc.nyu.edu.
@@ -119,7 +193,7 @@ MPI scan latency: 2.397701e+01 ms
 MPI scan bandwidth: 4.170661e-03 GB/s
 ```
 
-RUN 2
+RUN 2: `world_size=10, array_size=1000000`
 
 ```bash
 Rank 0/10 running on cs087.hpc.nyu.edu.
@@ -136,6 +210,33 @@ Size of the array: 1000000
 Total error between sequential and MPI scans: 0.000389
 MPI scan latency: 2.298346e+01 ms
 MPI scan bandwidth: 4.350954e-02 GB/s
+```
+
+Additional sanity check with deterministic values, i.e in the `mpi_scan` function:
+```c++
+// replace
+rand_array[i] = drand48();
+// with
+rand_array[i] = i;
+```
+
+RUN 3: `world_size=10, array_size=1000000`
+
+```bash
+Rank 0/10 running on cs146.hpc.nyu.edu.
+Rank 7/10 running on cs391.hpc.nyu.edu.
+Rank 9/10 running on cs490.hpc.nyu.edu.
+Rank 4/10 running on cs348.hpc.nyu.edu.
+Rank 5/10 running on cs349.hpc.nyu.edu.
+Rank 3/10 running on cs171.hpc.nyu.edu.
+Rank 1/10 running on cs147.hpc.nyu.edu.
+Rank 2/10 running on cs150.hpc.nyu.edu.
+Rank 8/10 running on cs462.hpc.nyu.edu.
+Rank 6/10 running on cs382.hpc.nyu.edu.
+Size of the array: 1000000
+Total error between sequential and MPI scans: 0.000000
+MPI scan latency: 1.606138e+01 ms
+MPI scan bandwidth: 6.226114e-02 GB/s
 ```
 
 ### Question 4: Project Pitch

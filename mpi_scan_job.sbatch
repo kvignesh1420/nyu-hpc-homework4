@@ -11,5 +11,5 @@ module purge
 module load amber/openmpi/intel/20.06
 
 # change the size of array here
-# mpirun ./mpi_scan 1000000
-mpirun ./mpi_scan 100000
+# mpirun ./mpi_scan 100000
+mpirun ./mpi_scan 1000000
